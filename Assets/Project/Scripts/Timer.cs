@@ -19,6 +19,8 @@ namespace GGJ
         public bool failure{ get; private set; }
         bool enables = false;
 
+        public string context;
+
         private void Start()
         {
             ResetTimer();

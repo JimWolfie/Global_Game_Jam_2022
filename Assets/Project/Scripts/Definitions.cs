@@ -22,22 +22,7 @@ namespace GGJ
         UnderInteracted = 32,
         NoProblems = 64
     }
-    public class RandomDateTimeInts
-    {
-        public int Days;
-        public int Hours;
-        public int Minutes;
-        public int Seconds;
-        public RandomDateTimeInts()
-        {
-           
-            Days = UnityEngine.Random.Range(1, 3);
-
-            Hours = UnityEngine.Random.Range(1, 8);
-            Minutes = UnityEngine.Random.Range(1, 30);
-            Seconds = UnityEngine.Random.Range(1, 60);
-        }
-    }
+   
     public class DatedEvents
     {
         public DateTime eventTime;
@@ -46,6 +31,60 @@ namespace GGJ
         {
             this.eventTime = eventTime;
             this.context = context;
+        }
+        public DatedEvents(string context)
+        {
+            this.eventTime = DateTime.Now + new TimeSpan(
+                UnityEngine.Random.Range(1, 3),
+                UnityEngine.Random.Range(1, 8),
+                UnityEngine.Random.Range(1, 30),
+                UnityEngine.Random.Range(1, 60));
+            this.context = context;
+        }
+
+        public bool CompareContext(DatedEvents dateToCompare)
+        {
+            var d = dateToCompare;
+            var sameCtx = this.context.Equals(d.context);
+            
+            if(sameCtx)
+            {
+                //not same context we can move on. 
+                
+                return true; 
+            }else
+            {
+                return false;
+            }
+        }
+
+        public bool ReturnMostRecent( DatedEvents dateToCompare, out DatedEvents mostRecent)
+        {
+            //return ture if we do anything further, return false if its just the comparing object
+
+            var b = CompareContext(dateToCompare);
+            if(!b)
+            {
+                mostRecent = null;
+                return false;
+            }
+            var d = (this.eventTime.CompareTo(dateToCompare.eventTime));
+            switch(d)
+            {
+                case -1://this date is earlier
+                    mostRecent = this;
+                    return false;
+                case 0://date is the same
+                    mostRecent = this;
+                    return false;
+                case 1://this date is later
+                    mostRecent = dateToCompare;
+                    return true;
+                default://return calling, probalby no need
+                    mostRecent = this;
+                    return false;
+            }
+
         }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 namespace GGJ
 {
@@ -10,9 +11,11 @@ namespace GGJ
         public DateTime previousDay;
         public  DateTime startTime;//when application was loaded today
         public DateTime NextEvent;
+        private List<DatedEvents> _EventList = null;
         public RFFs previousDayFlagValue;
         private RFFs currentDayFlagValue;
-        private Queue<DatedEvents> _EventList = null;
+
+        
 
         private void Awake()
         {
@@ -29,34 +32,46 @@ namespace GGJ
 
         }
 
-        private void Update()
-        {
-            if(DateTime.Now >= NextEvent)
-            {
-                
-                PopNextEvent();
-                
-            }
-        }
+        
 
         public void CreateNewNeedEvent(string context)
         {
-            var dt = new RandomDateTimeInts();
-            var ev = new TimeSpan(dt.Days, dt.Hours, dt.Minutes, dt.Seconds);
-            QueueEvent(new DatedEvents(DateTime.Now + ev, context));
+            if(_EventList!=null && !(_EventList.Count>3) )
+            {
+                QueueEvent(new DatedEvents(context));
+            }
+            
         }
         private void QueueEvent(DatedEvents newEvent)
         {
-            _EventList.Enqueue(newEvent);
-        }
-        private void PopNextEvent()
-        {
-            DatedEvents result;
-            var success= _EventList.TryDequeue(out result);
-            if(success)
+            bool sametype = false;
+            foreach(DatedEvents e in _EventList)
             {
-
+                
+                if(!sametype && e.CompareContext(newEvent))
+                {
+                    DatedEvents mostRecent;
+                    bool t = e.ReturnMostRecent(newEvent, out mostRecent);
+                    if(t)
+                    {
+                        _EventList.Add(mostRecent);
+                    }
+                    sametype = true;
+                }
             }
+            if(sametype==false)
+            {
+                _EventList.Add(newEvent);
+            }
+        }
+        public void PopNextEvent()
+        {
+            if(_EventList.Count>0)
+            {
+                DatedEvents q = _EventList.OrderByDescending(T => T.eventTime).FirstOrDefault();
+                NextEvent = q.eventTime;
+            }
+           
         }
        
 
