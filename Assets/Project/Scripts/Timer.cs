@@ -35,12 +35,12 @@ namespace GGJ
             //we update timer
             //we set failure
 
-            if(failure==true)
+            if(failure)
             {
                 FailedEvent();
 
             }
-            if(timer > 0 && failure==false)
+            if(timer > 0 && !failure)
             {
                 timer -= Time.deltaTime;
                 UpdateDisplay(timer);
@@ -79,13 +79,13 @@ namespace GGJ
 
         public void ToggleText()
         {
-            if(enables == false)
+            if(!enables)
             {
                 
                 enables = true;
                 UpdateDisplay(timer);
 
-            } else if(enables == true)
+            } else if(enables)
             {
                 
                 display_Text.SetText("");
