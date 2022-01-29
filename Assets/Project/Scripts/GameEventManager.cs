@@ -8,18 +8,18 @@ namespace GGJ
 {
     public class GameEventManager : MonoBehaviour
     {
-        public DateTime previousDay;
-        public  DateTime startTime;//when application was loaded today
-        public DateTime NextEvent;
+        public DateTime previousDayApplicationEnd;
+        public  DateTime applicationStartTime;//when application was loaded today
+        public DatedEvents NextEvent;
         private List<DatedEvents> _EventList = null;
         public RFFs previousDayFlagValue;
-        private RFFs currentDayFlagValue;
+        public static RFFs currentDayFlagValue;
 
         
 
         private void Awake()
         {
-            startTime=System.DateTime.Now;
+            applicationStartTime=System.DateTime.Now;
            
         }
         private void Start()
@@ -69,7 +69,7 @@ namespace GGJ
             if(_EventList.Count>0)
             {
                 DatedEvents q = _EventList.OrderByDescending(T => T.eventTime).FirstOrDefault();
-                NextEvent = q.eventTime;
+                NextEvent = q;
             }
            
         }
@@ -86,7 +86,7 @@ namespace GGJ
             previousDayFlagValue = (RFFs)PlayerPrefs.GetInt("Relationship",64);
 
             var dateString = PlayerPrefs.GetString("previousDay");
-            previousDay = DateTime.Parse(dateString, 
+            previousDayApplicationEnd = DateTime.Parse(dateString, 
                 System.Globalization.CultureInfo.InvariantCulture);
         }
 

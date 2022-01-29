@@ -8,6 +8,11 @@ namespace GGJ
 {
     public class UI_Event : MonoBehaviour
     {
+        public bool waterEventPressed;
+        public bool feedEventPressed;
+        public bool interactEventPressed;
+
+
         public void Water()
         {
             Debug.Log("I have been watered");
@@ -21,6 +26,7 @@ namespace GGJ
         {
             Debug.Log("I have been dated");
         }
+
 
     }
 }
