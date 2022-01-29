@@ -7,11 +7,12 @@ namespace GGJ
 {
     public class GameEventManager : MonoBehaviour
     {
-        private DateTime previousDay;
-        private DateTime startTime;//when application was loaded today
-        private DateTime NextEvent;
-        private RFFs previousFlagValue;
-        private RFFs todaysFlagValue;
+        public DateTime previousDay;
+        public  DateTime startTime;//when application was loaded today
+        public DateTime NextEvent;
+        public RFFs previousDayFlagValue;
+        private RFFs currentDayFlagValue;
+        private Queue<DatedEvents> _EventList = null;
 
         private void Awake()
         {
@@ -20,10 +21,12 @@ namespace GGJ
         }
         private void Start()
         {
-            Debug.Log(startTime);
-            RFFs v = RFFs.OverFedFood;
-            Debug.Log(v.ToString());
-            Debug.Log(v+1);
+            LoadPreviousFlag();
+        }
+        private void OnApplicationQuit()
+        {
+            SavePreviousFlag(currentDayFlagValue);
+
         }
 
         private void Update()
@@ -44,11 +47,16 @@ namespace GGJ
         }
         private void QueueEvent(DatedEvents newEvent)
         {
-            
+            _EventList.Enqueue(newEvent);
         }
         private void PopNextEvent()
         {
+            DatedEvents result;
+            var success= _EventList.TryDequeue(out result);
+            if(success)
+            {
 
+            }
         }
        
 
@@ -60,7 +68,7 @@ namespace GGJ
         }
         private void LoadPreviousFlag()
         {
-            previousFlagValue = (RFFs)PlayerPrefs.GetInt("Relationship",64);
+            previousDayFlagValue = (RFFs)PlayerPrefs.GetInt("Relationship",64);
 
             var dateString = PlayerPrefs.GetString("previousDay");
             previousDay = DateTime.Parse(dateString, 
@@ -68,43 +76,6 @@ namespace GGJ
         }
 
     }
-    [Flags]
-    public enum RFFs
-    {
-        //Relationship Failure Flags
-        None = 0,
-        OverWatered = 1,
-        OverFedFood = 2,
-        OverInteracted = 4,
-        UnderWaterd = 8,
-        UnderFedFood = 16,
-        UnderInteracted = 32,
-        NoProblems = 64
-    }
-    public class RandomDateTimeInts
-    {
-        public int Days;
-        public int Hours;
-        public int Minutes;
-        public int Seconds;
-        public RandomDateTimeInts()
-        {
-            var rand = new System.Random();
-            Days = rand.Next();
-            Hours = rand.Next();
-            Minutes = rand.Next();
-            Seconds = rand.Next();
-        }
-    }
-    public class DatedEvents
-    {
-        public DateTime eventTime;
-        public string context;
-        public DatedEvents(DateTime eventTime, string context)
-        {
-            this.eventTime = eventTime;
-            this.context = context;
-        }
-    }
+    
 
 }
