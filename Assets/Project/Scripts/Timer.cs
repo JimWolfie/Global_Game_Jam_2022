@@ -26,10 +26,7 @@ namespace GGJ
 
         private void Update()
         {
-            
                 UpdateTimer();
-            
-            
         }
 
         private void UpdateTimer()
