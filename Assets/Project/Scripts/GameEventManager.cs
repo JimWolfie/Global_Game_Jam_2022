@@ -9,17 +9,18 @@ namespace GGJ
     public class GameEventManager : MonoBehaviour
     {
         public DateTime previousDayApplicationEnd;
-        public  DateTime applicationStartTime;//when application was loaded today
+        public  DateTime startTime;//when application was loaded today
         public DatedEvents NextEvent;
         private List<DatedEvents> _EventList = null;
         public RFFs previousDayFlagValue;
-        public static RFFs currentDayFlagValue;
+        public RFFs currentDayFlagValue;
+        public Timer timer;
 
         
 
         private void Awake()
         {
-            applicationStartTime=System.DateTime.Now;
+            startTime=System.DateTime.Now;
            
         }
         private void Start()
@@ -66,13 +67,23 @@ namespace GGJ
         }
         public void PopNextEvent()
         {
-            if(_EventList.Count>0)
+            
+            if(NextEvent==null)
             {
                 DatedEvents q = _EventList.OrderByDescending(T => T.eventTime).FirstOrDefault();
                 NextEvent = q;
+                return;
             }
-           
+            
+            if(NextEvent.LessThan1Hour(out float duration))
+            {
+                timer.StartNewTimer(duration, NextEvent.context);
+                NextEvent=null;
+                return;
+            }
+            return;
         }
+
        
 
         private void SavePreviousFlag(RFFs currentflags)
@@ -90,6 +101,7 @@ namespace GGJ
                 System.Globalization.CultureInfo.InvariantCulture);
         }
 
+      
     }
     
 

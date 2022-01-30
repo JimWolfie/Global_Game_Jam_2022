@@ -14,13 +14,32 @@ namespace GGJ
     {
         //Relationship Failure Flags
         None = 0,
-        OverWatered = 1,
-        OverFedFood = 2,
-        OverInteracted = 4,
-        UnderWaterd = 8,
-        UnderFedFood = 16,
-        UnderInteracted = 32,
+        UnderWatered = 1,
+        UnderFedFood = 2,
+        UnderInteracted = 4,
+        OverWaterd = 8,
+        OverFedFood = 16,
+        OverInteracted = 32,
         NoProblems = 64
+    }
+    
+    [Flags]
+    public enum RSSs
+    {
+        None = 0,
+        s1 = 1,
+        s2 = 2,
+        s4 = 4,
+        s8 = 8,
+        s16= 16,
+        FullBloom = 32
+    }
+    public enum EventOutcome
+    {
+        None = 0,
+        Success = 1,
+        Failure = 2,
+        Canceled =4
     }
    
     public class DatedEvents
@@ -85,6 +104,19 @@ namespace GGJ
                     return false;
             }
 
+        }
+        public bool LessThan1Hour( out float duration)
+        {
+
+            var d = eventTime - new TimeSpan(0, 0, 60, 0);
+            if(DateTime.Now>= d)
+            {
+                 var t_diff = d.Subtract(DateTime.Now);
+                 duration = (float)t_diff.Minutes;
+                 return true;
+            }
+            duration = 0;
+            return false;
         }
     }
 }
