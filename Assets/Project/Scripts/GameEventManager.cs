@@ -33,6 +33,10 @@ namespace GGJ
         {
             LoadPreviousFlag();
         }
+        private void LateUpdate()
+        {
+            PopNextEvent();
+        }
         private void OnApplicationQuit()
         {
             SavePreviousFlag(currentDayFlagValue);
@@ -72,6 +76,12 @@ namespace GGJ
                 _EventList.Add(newEvent);
             }
         }
+
+        public void DisplayDeath()
+        {
+            
+        }
+
         public void PopNextEvent()
         { //we pop on startup of application
             
