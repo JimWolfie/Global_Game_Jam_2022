@@ -1,0 +1,9 @@
+What kind of event is next, and what time its happening. 
+
+what what are their current fail statuses
+what are their current success statues
+hello lines
+goodbye lines
+dialog lines
+food scene lines
+watering scene lines

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEditor;
 
 namespace GGJ
 {
@@ -12,20 +13,23 @@ namespace GGJ
         public StateManager sm;
         public GameEventManager gm;
 
-        string[] helloLines;
+        [SerializeField]
+        TextAsset _file;
 
-        string[] goodbyeLines;
+        public string[] helloLines;
 
-        string[] feedLines;
-        string[] waterLines;
-        string[] communction;
+        public string[] goodbyeLines;
 
-        string[] overfeed;
-        string[] underfeed;
-        string[] overwater;
-        string[] underwater;
-        string[] neglect;
-        string[] annoy;
+        public string[] feedLines;
+        public string[] waterLines;
+        public string[] communction;
+
+        public string[] overfeed;
+        public string[] underfeed;
+        public string[] overwater;
+        public string[] underwater;
+        public string[] neglect;
+        public string[] annoy;
 
         public void Start()
         {
@@ -36,11 +40,11 @@ namespace GGJ
         {
             throw new NotImplementedException();
         }
-        private void OnValidate()
+        
+        private void NewList(string[] lines)
         {
-            var lines = File ? _file.text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries) : null;
-            _items = Newlist(lines);
-            Debug.Log(_items);
+
         }
+       
     }
 }
