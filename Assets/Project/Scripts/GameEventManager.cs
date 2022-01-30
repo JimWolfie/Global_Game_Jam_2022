@@ -11,7 +11,7 @@ namespace GGJ
         public DateTime previousDayApplicationEnd;
         public  DateTime startTime;//when application was loaded today
         public DatedEvents NextEvent;
-        public List<DatedEvents> _EventList {get; private set;} = null;
+        public List<DatedEvents> _EventList = new List<DatedEvents>();
         public RFFs previousDayFlagValue;
         public RFFs currentDayFlagValue;
 
@@ -35,7 +35,11 @@ namespace GGJ
         }
         private void LateUpdate()
         {
-            PopNextEvent();
+            if(_EventList!=null)
+            {
+                PopNextEvent();
+            }
+            
         }
         private void OnApplicationQuit()
         {
@@ -47,7 +51,7 @@ namespace GGJ
 
         public void CreateNewNeedEvent(string context)
         {
-            if( !(_EventList.Count>3) )
+            if((_EventList == null) ||!(_EventList.Count>3) )
             {
                 QueueEvent(new DatedEvents(context));
             }
@@ -57,24 +61,32 @@ namespace GGJ
         private void QueueEvent(DatedEvents newEvent)
         {
             bool sametype = false;
-            foreach(DatedEvents e in _EventList)
+            if(!(_EventList == null))
             {
-                
-                if(!sametype && e.CompareContext(newEvent))
+                foreach(DatedEvents e in _EventList)
                 {
-                    DatedEvents mostRecent;
-                    bool t = e.ReturnMostRecent(newEvent, out mostRecent);
-                    if(t)
+
+                    if(!sametype && e.CompareContext(newEvent))
                     {
-                        _EventList.Add(mostRecent);
+                        DatedEvents mostRecent;
+                        bool t = e.ReturnMostRecent(newEvent, out mostRecent);
+                        if(t)
+                        {
+                            _EventList.Add(mostRecent);
+                        }
+                        sametype = true;
                     }
-                    sametype = true;
+                }
+                if(sametype==false)
+                {
+                    _EventList.Add(newEvent);
                 }
             }
-            if(sametype==false)
+            if(_EventList == null)
             {
                 _EventList.Add(newEvent);
             }
+            
         }
 
         public void DisplayDeath()
@@ -111,7 +123,7 @@ namespace GGJ
             PlayerPrefs.SetString("previousDay", DateTime.Now.ToString()); //fails
             PlayerPrefs.SetInt("Success", (int)currentDaySucccess);
 
-            if(_EventList.Count>0)
+            if(!(_EventList== null)&&(_EventList.Count>0) )
             {
                 foreach(DatedEvents d in _EventList)
                 {
@@ -129,11 +141,11 @@ namespace GGJ
         {
             previousDayFlagValue = (RFFs)PlayerPrefs.GetInt("Relationship", 64);
             previousDaySuccess = (RSSs)PlayerPrefs.GetInt("Success", 0);
-            var dateString = PlayerPrefs.GetString("previousDay");
+            var dateString = PlayerPrefs.GetString("previousDay", DateTime.Now.ToString());
 
             previousDayApplicationEnd = DateTime.Parse(dateString,
                 System.Globalization.CultureInfo.InvariantCulture);
-
+             
             var f_event = PlayerPrefs.GetString("food", "food");
             var s_event = PlayerPrefs.GetString("interaction", "interaction");
             var w_event = PlayerPrefs.GetString("water", "water");
