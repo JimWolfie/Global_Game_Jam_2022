@@ -89,10 +89,7 @@ namespace GGJ
             
         }
 
-        public void DisplayDeath()
-        {
-            
-        }
+       
 
         public void PopNextEvent()
         { //we pop on startup of application

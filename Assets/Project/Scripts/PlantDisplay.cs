@@ -33,28 +33,63 @@ namespace GGJ
 
         public TextMeshProUGUI talking;
 
-        public Sprite plantHealthy;
-        public GameObject plantDead;
-        public GameObject plantWilting;
-        public GameObject plantBudding;
-        public GameObject plantBloom;
-
+        public SpriteRenderer plantDisplayed;
+        public Sprite[] possibleSprites;
+        public Sprite goodSprite;
+        public Sprite bestSprite;
+       
 
          void Start()
+         {
+            
+            UpdatePlantDisplay(ref gm.currentDayFlagValue);
+           
+         }
+         
+       
+
+
+        public void UpdatePlantDisplay(ref RFFs flagCheck)
         {
-           
-           
+            if(!((int)gm.currentDaySucccess > 0))
+            {
+                plantDisplayed.sprite = possibleSprites[(int)flagCheck];
+            }else if((int)gm.currentDaySucccess > 32)
+            {
+                plantDisplayed.sprite = goodSprite;
+            } else
+            {
+                plantDisplayed.sprite = bestSprite;
+            }
+            
         }
 
         private void HelloLine(int index)
         {
-            //talking.SetText(helloLines._text[index]);
+            talking.SetText("Hello again");
+            return;
         }
-        
-        public void ToggleHealthy()
+        private void goodbye(int index)
         {
-
+            talking.SetText("check back tomorrow okay!");
+            return;
         }
-       
+        private void justwateredLine(int index)
+        {
+            talking.SetText("thanks for the water");
+            return;
+        }
+        private void justfedLine(int index)
+        {
+            talking.SetText("thanks for the meal and fertilizer");
+            return;
+        }
+        private void justtalkedLine(int index)
+        {
+            talking.SetText("that's interesting and neat and cool");
+            return;
+        }
+
+
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace GGJ
         public UI_Event ui_ref; // reference to the display
         public EventOutcome _Outcome; //handled in ui. tracks overclicking
         public GameEventManager gm; //reference to gm to track events
+        public PlantDisplay pd;
         private bool f_u_food;
         private bool f_o_food;
         private bool f_u_water;
@@ -52,7 +54,7 @@ namespace GGJ
                 {
                     case 0:
                         //was not fed
-                    gm.DisplayDeath();    
+                    DisplayDeath();    
                     break;
                     case 1:
                     gm.currentDayFlagValue -= 2;
@@ -124,6 +126,9 @@ namespace GGJ
             unCacheBools();
             //setbit flag
         }
+
+        
+
         void WaterResult()
         {
               if(f_u_water)
@@ -132,7 +137,7 @@ namespace GGJ
                 {
                     case 0:
                         //not watered when underwatered. display death
-                        gm.DisplayDeath();
+                        DisplayDeath();
                     break;
                     case 1:
                         //watered when underwatered, remove flag
@@ -210,7 +215,7 @@ namespace GGJ
 
                     case 0:
                     
-                    gm.DisplayDeath();
+                    DisplayDeath();
                     break;
                     case 1:
                 
@@ -312,6 +317,14 @@ namespace GGJ
          ui_ref.water = EventOutcome.None;
          ui_ref.food = EventOutcome.None;
             ui_ref.interaction = EventOutcome.None;
+
+            pd.UpdatePlantDisplay(ref gm.currentDayFlagValue);
+        }
+
+        private void DisplayDeath()
+        {
+            gm.currentDayFlagValue = RFFs.None;
+            gm.currentDayFlagValue += 7;
         }
         /*
         void genericResult()
