@@ -16,20 +16,20 @@ namespace GGJ
         [SerializeField]
         TextAsset _file;
 
-        public string[] helloLines;
+        public textObj helloLines;
 
-        public string[] goodbyeLines;
+        public textObj goodbyeLines;
 
-        public string[] feedLines;
-        public string[] waterLines;
-        public string[] communction;
+        public textObj feedLines;
+        public textObj waterLines;
+        public textObj communction;
 
-        public string[] overfeed;
-        public string[] underfeed;
-        public string[] overwater;
-        public string[] underwater;
-        public string[] neglect;
-        public string[] annoy;
+        public textObj overfeed;
+        public textObj underfeed;
+        public textObj overwater;
+        public textObj underwater;
+        public textObj neglect;
+        public textObj annoy;
 
         public void Start()
         {

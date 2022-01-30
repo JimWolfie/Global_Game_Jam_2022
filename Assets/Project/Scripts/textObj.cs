@@ -18,6 +18,14 @@ namespace GGJ
             _text = new List<string>(AllWords).ToArray();
         }
 
+        public string lineAtIndex (int index)
+        {
+            if(index < _text.Length)
+            {
+                return _text[index];
+            }
+            return "";
+        }
     }
      
 }
