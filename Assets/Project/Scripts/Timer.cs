@@ -17,23 +17,27 @@ namespace GGJ
         [SerializeField]
         private TextMeshProUGUI display_Text;
 
-        public EventOutcome _Outcome;
+        
         bool enables = false;
 
         public string context;
+        
+        public StateManager sm;
         public GameEventManager gm;
-
-        public UI_Event reference;
+        
 
         private void Start()
         {
-            UpdateTimer();
+            //UpdateTimer();
 
         }
+        public void LateUpdate()
+        {
+            
+        }
 
-       
 
-        IEnumerator UpdateTimer()
+        public IEnumerator UpdateTimer()
         {
             //we failed
             //we update timer
@@ -45,55 +49,14 @@ namespace GGJ
                 UpdateDisplay(timer);
                 yield return null;
             }
-            DisplayOutcome();
-          
-        }
-
-        private void DisplayOutcome()
-        {
             ToggleEnables();
-            switch(context)
-            {
-                case "food":
-                    Debug.Log("Failed to feed");
-                    return;
-                case "water":
-                    Debug.Log("fed the correct ammount");
-                    return;
-                case "interaction":
-                    Debug.Log("too much food");
-                    return;
-            }
+            sm.HandleOutcome(context);
+            gm.CheckListForMissingEventType();
+            
 
         }
-        void FoodResult()
-        {
-            var o = (int)_Outcome;
-            if(0!=1)
-            {
-                gm.currentDayFlagValue.HasFlag(RFFs.UnderWatered);
-                
-            }
-            //setbit flag
-        }
-        void WaterResult()
-        {
-            var o = (int)_Outcome;
-            if(0!=1)
-            {
-                //set bitflag
-            }
-            //set bit flag
-        }
-        void InteractionResult()
-        {
-            var o = (int)_Outcome;
-            if(0!=1)
-            {
-                //set bitflag
-            }
 
-        }
+        
         private void UpdateDisplay(float time)
         {
             if(enables)
@@ -114,13 +77,9 @@ namespace GGJ
             ToggleEnables();
             timer = duration;
             UpdateDisplay(timer);
-            StartCoroutine("UpdateTimer");
+            StartCoroutine(UpdateTimer());
         }
-        private void FailedEvent()
-        {
 
-            Debug.Log("we failed");
-        }
 
         public void ToggleText()
         {

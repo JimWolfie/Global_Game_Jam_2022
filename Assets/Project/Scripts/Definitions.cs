@@ -41,6 +41,15 @@ namespace GGJ
         Failure = 2,
         Canceled =4
     }
+
+    [Flags]
+    public enum eventType
+    {
+        None = 0,
+        food = 1,
+        water = 2,
+        interaction = 4
+    }
    
     public class DatedEvents
     {

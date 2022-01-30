@@ -8,9 +8,9 @@ namespace GGJ
 {
     public class UI_Event : MonoBehaviour
     {
-        public EventOutcome food { get; private set; }
-        public EventOutcome water { get; private set; }
-        public EventOutcome interaction { get; private set; }
+        public EventOutcome food;
+        public EventOutcome water ;
+        public EventOutcome interaction ;
 
 
         public void Water()
