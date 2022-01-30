@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEditor;
+using TMPro;
 
 namespace GGJ
 {
@@ -31,17 +31,27 @@ namespace GGJ
         public textObj neglect;
         public textObj annoy;
 
-        public void Start()
+        public TextMeshProUGUI talking;
+
+        public Sprite plantHealthy;
+        public GameObject plantDead;
+        public GameObject plantWilting;
+        public GameObject plantBudding;
+        public GameObject plantBloom;
+
+
+         void Start()
         {
-            HelloLine();
+           
+           
         }
 
-        private void HelloLine()
+        private void HelloLine(int index)
         {
-            throw new NotImplementedException();
+            //talking.SetText(helloLines._text[index]);
         }
         
-        private void NewList(string[] lines)
+        public void ToggleHealthy()
         {
 
         }
